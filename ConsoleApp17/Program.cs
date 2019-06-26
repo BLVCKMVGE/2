@@ -1,18 +1,14 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
-namespace ConsoleApp17
+namespace ConsoleApp1
 {
-    public class chess_ft
+    class Program
     {
-    
-
-	   private static int MAXN = 1000;
+        private static int MAXN = 1000;
         private static int MAXM = 1000;
 
         static private void myAssert(bool e)
@@ -22,121 +18,92 @@ namespace ConsoleApp17
                 Console.WriteLine("Assertion failure!!!");
             }
         }
-        class Field
+        int r;
+        int c;
+        private void print(List<Program> list)
         {
-            int r;
-            int c;
-            private static StringBuilder str;
-
-            public Field(int r, int c)
+            Console.WriteLine(list.Count());
+            foreach (Program f in list)
             {
-                this.r = r;
-                this.c = c;
+                Console.WriteLine(f);
             }
-
-            public String ToString()
+        }
+        public Program(int r, int c)
+        {
+            this.r = r;
+            this.c = c;
+        }
+        public override String ToString()
+        {
+            return r + " " + c;
+        }
+       static private void Print(List<Program> list)
+        {
+            Console.WriteLine(list.Count());
+            foreach (Program f in list)
             {
-                return r + " " + c;
+                Console.WriteLine(f);
             }
-            private void print(List<Field> list)
+        }
+        static void Main(string[] args)
+        {
+            int n;
+            while ((!int.TryParse(Console.ReadLine(), out n)) || n < 1)
             {
-		        Console.WriteLine(list.Count());
-                foreach (Field f in list)
+                Console.WriteLine("Ошибка ввода! Введите целое число n");
+            }
+            int m;
+            while ((!int.TryParse(Console.ReadLine(), out m)) || m > 100)
+            {
+                Console.WriteLine("Ошибка ввода! Введите целое число m");
+            }
+            myAssert(1 <= n && n <= MAXN);
+            myAssert(1 <= m && m <= MAXM);
+            int[,] b = new int[n, m];
+
+            List<Program> ans1 = new List<Program>();
+            List<Program> ans2 = new List<Program>();
+
+            for (int i = 0; i < n; i++)
+            {
+                String s = Console.ReadLine();
+                myAssert(s.Count() == m);
+                for (int j = 0; j < m; j++)
                 {
-                    Console.WriteLine(f);
-                }
-            }
-            private void solve()
-            {
-                int n = int.Parse(Console.ReadLine());
-                int m = int.Parse(Console.ReadLine());
-                myAssert(1 <= n && n <= MAXN);
-                myAssert(1 <= m && m <= MAXM);
-		        //in.nextLine();
-                int[,] b = new int[n,m];
-
-                List<Field> ans1 = new List<Field>();
-                List<Field> ans2 = new List<Field>();
-
-                for (int i = 0; i < n; i++)
-                {
-                    String s = Console.ReadLine();
-                    myAssert(s.Count() == m);
-                    for (int j = 0; j < m; j++)
+                    char ch = s[j];
+                    myAssert(ch == 'B' || ch == 'W');
+                    b[i, j] = 0;
+                    if (ch == 'W')
                     {
-                        char ch = s[j];
-                        myAssert(ch == 'B' || ch == 'W');
-                        b[i,j] = 0;
-                        if (ch == 'W')
-                        {
-                            b[i,j] = 1;
-                        }
+                        b[i, j] = 1;
                     }
                 }
+            }
 
-                for (int i = 0; i < n; i++)
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < m; j++)
                 {
-                    for (int j = 0; j < m; j++)
+                    int col1 = (i + j) % 2;
+                    if (b[i, j] != col1)
                     {
-                        int col1 = (i + j) % 2;
-                        if (b[i,j] != col1)
-                        {
-                            ans1.Add(new Field(i + 1, j + 1));
-                        }
-                        else
-                        {
-                            ans2.Add(new Field(i + 1, j + 1));
-                        }
+                        ans1.Add(new Program(i + 1, j + 1));
+                    }
+                    else
+                    {
+                        ans2.Add(new Program(i + 1, j + 1));
                     }
                 }
-                if (ans1.Count() < ans2.Count())
-                {
-                    print(ans1);
-                }
-                else
-                {
-                    print(ans2);
-                }
             }
-
-            public void run()
+            if (ans1.Count() < ans2.Count())
             {
-                try
-                {
-                    solve();
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.ToString());
-                    Environment.Exit(1);
-                }
-                finally
-                {
-                    System.Console.Out.Close();
-                }
+                Print(ans1);
             }
-            static StringBuilder chess_ft()
+            else
             {
-                try
-                {
-                    StreamReader reader = new StreamReader("in.txt");
-                    StreamWriter writer = new StreamWriter("result.txt");
-                }
-                catch (IOException e)
-                {
-                    Console.WriteLine(e.ToString());
-                    Environment.Exit(239);
-                }
-                return str;
+                Print(ans2);
             }
-
-            
-
-            public static void Main(String[] args)
-            {
-                Thread t = new Thread(new ThreadStart(chess_ft));
-                t.Start();
-            }
+            Console.ReadKey();
         }
     }
 }

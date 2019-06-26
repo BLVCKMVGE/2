@@ -10,10 +10,9 @@ namespace ConsoleApp17
 {
     public class chess_ft
     {
-     //   private Scanner in;
-	    //private PrintWriter out;
+    
 
-	    private static int MAXN = 1000;
+	   private static int MAXN = 1000;
         private static int MAXM = 1000;
 
         static private void myAssert(bool e)
@@ -131,20 +130,7 @@ namespace ConsoleApp17
                 return str;
             }
 
-            // static private chess_ft()
-            // {
-            //     try
-            //     {
-            //in = new Scanner(new File("output.txt"));
-            //out = new PrintWriter(new FileWriter(".txt"));
-            //     }
-            //     catch (IOException e)
-            //     {
-            //         e.printStackTrace();
-            //         System.exit(239);
-            //     }
-
-            // }
+            
 
             public static void Main(String[] args)
             {
